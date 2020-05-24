@@ -2,6 +2,7 @@
   <v-container fluid fill-height>
     <v-btn color="pink" dark @click.stop="drawer = !drawer">Toggle</v-btn>
 
+    <!-- 左側に隠れている部分 -->
     <v-navigation-drawer v-model="drawer" absolute temporary>
       <v-list>
         <v-list-item>
