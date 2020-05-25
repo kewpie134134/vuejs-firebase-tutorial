@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app color="primary" dark>
+      <!-- v-on:click.stopで親要素へのクリック情報伝搬を阻止している -->
       <v-app-bar-nav-icon @click.stop="openSideMenu"></v-app-bar-nav-icon>
       <v-toolbar-title>マイアドレス帳</v-toolbar-title>
       <v-spacer></v-spacer>
