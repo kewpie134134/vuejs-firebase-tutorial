@@ -8,7 +8,7 @@ export default new Vuex.Store({
     drawer: false,
   },
   mutations: {
-    // mutationの関数にはstateが自動で渡される
+    // mutationの関数の引数にはstateが自動で渡される
     toggleSideMenu(state) {
       state.drawer = !state.drawer;
     },
