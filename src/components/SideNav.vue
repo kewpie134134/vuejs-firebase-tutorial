@@ -14,7 +14,8 @@
 
       <v-divider></v-divider>
 
-      <v-list-item v-for="(item, index) in items" :key="index">
+      <!-- routerを拡張したものなので、":to="でリンク先のnameを指定すればページ遷移する -->
+      <v-list-item v-for="(item, index) in items" :key="index" :to="item.link">
         <v-list-item-icon>
           <v-icon>{{ item.icon }}</v-icon>
         </v-list-item-icon>
@@ -30,7 +31,10 @@
 export default {
   data() {
     return {
-      items: [{ title: "連絡先一覧", icon: "mdi-menu" }],
+      items: [
+        { title: "ホーム", icon: "mdi-home", link: { name: "Home" } },
+        { title: "連絡先一覧", icon: "mdi-menu", link: { name: "Addresses" } },
+      ],
     };
   },
 };
