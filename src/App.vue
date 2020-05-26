@@ -6,8 +6,13 @@
       <v-toolbar-title>マイアドレス帳</v-toolbar-title>
       <v-spacer></v-spacer>
     </v-app-bar>
+
     <v-content>
       <SideNav />
+      <v-container fluid fill-height align-start>
+        <!-- 以下の一文でルートごとに設定したルートが表示される -->
+        <router-view />
+      </v-container>
     </v-content>
   </v-app>
 </template>
