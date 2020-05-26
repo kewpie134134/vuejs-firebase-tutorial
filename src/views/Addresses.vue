@@ -29,6 +29,12 @@
 
 <script>
 export default {
+  created() {
+    // 左辺のthisは、dataのaddressesを取得するために使用。
+    // 右辺のthis.$storeは、store内にアクセスするために使用、
+    // こうすることで、storeにcomponentからアクセスすることが可能
+    this.addresses = this.$store.state.addresses;
+  },
   data() {
     return {
       // Vuetifyで表示する(v-data-table)データをあらかじめdataに格納しておく
@@ -39,20 +45,7 @@ export default {
         { text: "メールアドレス", value: "email" },
         { text: "住所", value: "address" },
       ],
-      addresses: [
-        {
-          name: "友人１",
-          tel: "090-0000-1111",
-          email: "sample1@mail.com",
-          address: "東京都渋谷区",
-        },
-        {
-          name: "友人２",
-          tel: "090-2222-3333",
-          email: "sample2@mail.com",
-          address: "東京都品川区",
-        },
-      ],
+      addresses: [],
     };
   },
 };

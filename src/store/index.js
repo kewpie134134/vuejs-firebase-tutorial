@@ -6,11 +6,15 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     drawer: false,
+    addresses: [],
   },
   mutations: {
     // mutationの関数の引数にはstateが自動で渡される
     toggleSideMenu(state) {
       state.drawer = !state.drawer;
+    },
+    addAddress(state, address) {
+      state.addresses.push(address);
     },
   },
   actions: {
@@ -19,6 +23,10 @@ export default new Vuex.Store({
     toggleSideMenu({ commit }) {
       // mutationの関数を呼び出す際に使用される
       commit("toggleSideMenu");
+    },
+    // 第2引数にはactionでわたってくる値をセットできる
+    addAddress({ commit }, address) {
+      commit("addAddress", address);
     },
   },
   modules: {},
