@@ -7,6 +7,8 @@ import firebase from "firebase";
 
 Vue.config.productionTip = false;
 
+// index.htmlでもよいが、読み込みのタイミングによってはエラーになる場合がある。
+// そのため、vueのインスタンスの初期化の手前に実行されるようにする
 // Your web app's Firebase configuration
 var firebaseConfig = {
   apiKey: "AIzaSyBs-8zcRPBHRO20tdP3AoA6dQ-23k7lxNk",
