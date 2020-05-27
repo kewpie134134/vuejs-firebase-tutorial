@@ -5,6 +5,9 @@
       <v-app-bar-nav-icon @click.stop="toggleSideMenu"></v-app-bar-nav-icon>
       <v-toolbar-title>マイアドレス帳</v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-toolbar-items>
+        <v-btn @click="logout">ログアウト</v-btn>
+      </v-toolbar-items>
     </v-app-bar>
 
     <v-content>
@@ -33,10 +36,13 @@ export default {
     // 呼び出されるコールバック関数を受け取る。
     // ログイン時は引数の関数が呼ばれ、コールバック関数にユーザのオブジェクトが、
     // ログアウト時はnullが入る。
+    // ★ログイン/ログアウトは非同期処理★
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         // このthisはstoreのaction関数を呼び出すために必要。
         this.setLoginUser(user);
+      } else {
+        this.deleteLoginUser();
       }
     });
   },
@@ -46,7 +52,12 @@ export default {
   methods: {
     // 分割代入の形で、storeのaction関数を配列に登録することで
     // オブジェクトのstoreのactionを関数として呼び出すことが可能。
-    ...mapActions(["toggleSideMenu", "setLoginUser"]),
+    ...mapActions([
+      "toggleSideMenu",
+      "setLoginUser",
+      "logout",
+      "deleteLoginUser",
+    ]),
   },
 };
 </script>

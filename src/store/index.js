@@ -14,6 +14,9 @@ export default new Vuex.Store({
     setLoginUser(state, user) {
       state.login_user = user;
     },
+    deleteLoginUser(state) {
+      state.login_user = null;
+    },
     // mutationの関数の引数にはstateが自動で渡される
     toggleSideMenu(state) {
       state.drawer = !state.drawer;
@@ -25,6 +28,13 @@ export default new Vuex.Store({
   actions: {
     setLoginUser({ commit }, user) {
       commit("setLoginUser", user);
+    },
+    deleteLoginUser({ commit }) {
+      commit("deleteLoginUser");
+    },
+    logout() {
+      // 以下で、firebaseのauth()の機能でログアウト可能となる。
+      firebase.auth().signOut();
     },
     // googleの認証機能へアクセスするための実装
     login() {
