@@ -52,5 +52,11 @@ export default new Vuex.Store({
       commit("addAddress", address);
     },
   },
+  getters: {
+    // gettersの関数にはstateが自動的にわたってくる！
+    // そのため、stateからdataを取得し、加工したデータをコールバック関数で返す。
+    userName: (state) => (state.login_user ? state.login_user.displayName : ""),
+    photoURL: (state) => (state.login_user ? state.login_user.photoURL : ""),
+  },
   modules: {},
 });
