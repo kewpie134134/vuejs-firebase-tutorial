@@ -2,7 +2,10 @@
   <v-app>
     <v-app-bar app color="primary" dark>
       <!-- v-on:click.stopで親要素へのクリック情報伝搬を阻止している -->
-      <v-app-bar-nav-icon @click.stop="toggleSideMenu"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon
+        v-show="$store.state.login_user"
+        @click.stop="toggleSideMenu"
+      ></v-app-bar-nav-icon>
       <v-toolbar-title>マイアドレス帳</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items v-if="$store.state.login_user">
@@ -41,8 +44,12 @@ export default {
       if (user) {
         // このthisはstoreのaction関数を呼び出すために必要。
         this.setLoginUser(user);
+        if (this.$router.currentRoute.name === "Home") {
+          this.$router.push({ name: "Addresses" }, () => {});
+        }
       } else {
         this.deleteLoginUser();
+        this.$router.push({ name: "Home" }, () => {});
       }
     });
   },
