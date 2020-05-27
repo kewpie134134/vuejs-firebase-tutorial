@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import firebase from "firebase";
 // storeのaction関数をcomponentに組み込むことが可能
 import { mapActions } from "vuex";
 import SideNav from "./components/SideNav";
@@ -26,13 +27,26 @@ export default {
   components: {
     SideNav,
   },
+  // login_userの取得処理部分
+  created() {
+    // onAuthStateChanged()は、引数にユーザの認証状態が変わった時に
+    // 呼び出されるコールバック関数を受け取る。
+    // ログイン時は引数の関数が呼ばれ、コールバック関数にユーザのオブジェクトが、
+    // ログアウト時はnullが入る。
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        // このthisはstoreのaction関数を呼び出すために必要。
+        this.setLoginUser(user);
+      }
+    });
+  },
   data: () => ({
     //
   }),
   methods: {
     // 分割代入の形で、storeのaction関数を配列に登録することで
     // オブジェクトのstoreのactionを関数として呼び出すことが可能。
-    ...mapActions(["toggleSideMenu"]),
+    ...mapActions(["toggleSideMenu", "setLoginUser"]),
   },
 };
 </script>
