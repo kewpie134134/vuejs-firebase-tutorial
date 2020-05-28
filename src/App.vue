@@ -44,6 +44,7 @@ export default {
       if (user) {
         // このthisはstoreのaction関数を呼び出すために必要。
         this.setLoginUser(user);
+        this.fetchAddresses();
         if (this.$router.currentRoute.name === "Home") {
           this.$router.push({ name: "Addresses" }, () => {});
         }
@@ -64,6 +65,7 @@ export default {
       "setLoginUser",
       "logout",
       "deleteLoginUser",
+      "fetchAddresses",
     ]),
   },
 };

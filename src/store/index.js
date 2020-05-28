@@ -29,6 +29,16 @@ export default new Vuex.Store({
     setLoginUser({ commit }, user) {
       commit("setLoginUser", user);
     },
+    fetchAddresses({ getters, commit }) {
+      firebase
+        .firestore()
+        .collection(`users/${getters.uid}/addresses`)
+        .get() // get関数を実行すると非同期にデータを取得し、then関数の引数でget()の結果を受け取ることが可能
+        .then((snapshot) => {
+          // snapshotはquery_snapshotというオブジェクト、配列とは厳密には異なる(配列っぽく扱える)
+          snapshot.forEach((doc) => commit("addAddress", doc.data()));
+        });
+    },
     deleteLoginUser({ commit }) {
       commit("deleteLoginUser");
     },
