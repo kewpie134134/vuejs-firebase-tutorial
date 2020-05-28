@@ -18,8 +18,8 @@ const routes = [
     component: Addresses,
   },
   {
-    // :address_id?にはidなどのパラメータが入る(例: 1, 50 など)
-    // :address_id?に数字がない場合は、新規作成となるように実装する
+    // :address_id?にはidなどのパラメータが入る(例: 1, 50 など)(:の効果)
+    // :address_id?に数字がない場合は、新規作成となるように実装する(?の効果)
     path: "/addresses/:address_id?/edit",
     name: "Address_edit",
     component: AddressForm,

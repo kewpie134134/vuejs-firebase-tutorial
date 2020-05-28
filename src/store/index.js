@@ -21,7 +21,8 @@ export default new Vuex.Store({
     toggleSideMenu(state) {
       state.drawer = !state.drawer;
     },
-    addAddress(state, address) {
+    addAddress(state, { id, address }) {
+      address.id = id; // addressにidが浮揚される
       state.addresses.push(address);
     },
   },
@@ -36,7 +37,9 @@ export default new Vuex.Store({
         .get() // get関数を実行すると非同期にデータを取得し、then関数の引数でget()の結果を受け取ることが可能
         .then((snapshot) => {
           // snapshotはquery_snapshotというオブジェクト、配列とは厳密には異なる(配列っぽく扱える)
-          snapshot.forEach((doc) => commit("addAddress", doc.data()));
+          snapshot.forEach((doc) =>
+            commit("addAddress", { id: doc.id, address: doc.data() })
+          );
         });
     },
     deleteLoginUser({ commit }) {
@@ -65,9 +68,14 @@ export default new Vuex.Store({
         firebase
           .firestore()
           .collection(`users/${getters.uid}/addresses`)
-          .add(address);
+          .add(address)
+          .then((doc) => {
+            // add()のコールバック関数にはdocument_referencesオブジェクトがわたってくるので、
+            // then関数の引数docで受け取る。
+            // データをcommitの第2引数で渡す必要があるため、以下のようにオブジェクトの形で渡すようにする。
+            commit("addAddress", { id: doc.id, address });
+          });
       }
-      commit("addAddress", address);
     },
   },
   getters: {
