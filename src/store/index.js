@@ -48,7 +48,15 @@ export default new Vuex.Store({
       commit("toggleSideMenu");
     },
     // 第2引数にはactionでわたってくる値をセットできる
-    addAddress({ commit }, address) {
+    // firestore にデータを格納する処理を記述する
+    // actionの引数にはgettersも取得できるので、以下のように記述することができる
+    addAddress({ getters, commit }, address) {
+      if (getters.uid) {
+        firebase
+          .firestore()
+          .collection(`users/${getters.uid}/addresses`)
+          .add(address);
+      }
       commit("addAddress", address);
     },
   },
@@ -57,6 +65,8 @@ export default new Vuex.Store({
     // そのため、stateからdataを取得し、加工したデータをコールバック関数で返す。
     userName: (state) => (state.login_user ? state.login_user.displayName : ""),
     photoURL: (state) => (state.login_user ? state.login_user.photoURL : ""),
+    // firebaseから取得できるlogin_userにはuidが付与されているのでそれを取得する
+    uid: (state) => (state.login_user ? state.login_user.uid : null),
   },
   modules: {},
 });
