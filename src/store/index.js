@@ -85,6 +85,10 @@ export default new Vuex.Store({
     photoURL: (state) => (state.login_user ? state.login_user.photoURL : ""),
     // firebaseから取得できるlogin_userにはuidが付与されているのでそれを取得する
     uid: (state) => (state.login_user ? state.login_user.uid : null),
+    // 関数を返す関数を表す
+    // 引数idで、idにマッチした物を取得する使い方ができる
+    getAddressById: (state) => (id) =>
+      state.addresses.find((address) => address.id === id),
   },
   modules: {},
 });

@@ -41,6 +41,23 @@
 <script>
 import { mapActions } from "vuex";
 export default {
+  created() {
+    // routeにaddress_idが含まれているかをこれでチェックする
+    // パスに含まれるパラメータは$route.paramsから取得可能
+    if (!this.$route.params.address_id) {
+      return;
+    }
+
+    // 引数にidを渡し、該当するオブジェクトを取得する
+    const address = this.$store.getters.getAddressById(
+      this.$route.params.address_id
+    );
+    if (address) {
+      this.address = address;
+    } else {
+      this.$router.push({ name: "Addresses" });
+    }
+  },
   data() {
     return {
       address: {},
