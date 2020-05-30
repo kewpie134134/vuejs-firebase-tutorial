@@ -25,6 +25,18 @@ export default new Vuex.Store({
       address.id = id; // addressにidが浮揚される
       state.addresses.push(address);
     },
+    updateAddress(state, { id, address }) {
+      // アドレスオブジェクトが存在するインデックスを調べている
+      const index = state.addresses.findIndex((address) => address.id === id);
+      // 調べたインデックスの位置に新しいアドレスオブジェクトを代入して更新完了
+      state.addresses[index] = address;
+    },
+    deleteAddress(state, { id }) {
+      // アドレスオブジェクトが存在するインデックスを調べている
+      const index = state.addresses.findIndex((address) => address.id === id);
+      // indexの箇所から1つの要素を削除(splice())
+      state.addresses.splice(index, 1);
+    },
   },
   actions: {
     setLoginUser({ commit }, user) {
@@ -74,6 +86,32 @@ export default new Vuex.Store({
             // then関数の引数docで受け取る。
             // データをcommitの第2引数で渡す必要があるため、以下のようにオブジェクトの形で渡すようにする。
             commit("addAddress", { id: doc.id, address });
+          });
+      }
+    },
+    updateAddress({ getters, commit }, { id, address }) {
+      if (getters.uid) {
+        firebase
+          .firestore()
+          .collection(`users/${getters.uid}/addresses`)
+          .doc(id) // doc()でidを渡して、更新対象を指定している
+          .update(address) // doc()で指定し、update()で更新処理を走らせる(非同期処理)
+          .then(() => {
+            //update()は非同期処理のため、then()でコールバック関数を受け取る
+            commit("updateAddress", { id, address });
+          });
+      }
+    },
+    deleteAddress({ getters, commit }, { id }) {
+      if (getters.uid) {
+        firebase
+          .firestore()
+          .collection(`users/${getters.uid}/addresses`)
+          .doc(id) // doc()でidを渡して、削除対象を指定している
+          .delete() // doc()で指定し、delete()で削除処理を走らせる(非同期処理)
+          .then(() => {
+            //delete()は非同期処理のため、then()でコールバック関数を受け取る
+            commit("deleteAddress", { id });
           });
       }
     },

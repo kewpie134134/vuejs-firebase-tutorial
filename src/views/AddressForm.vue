@@ -65,15 +65,22 @@ export default {
   },
   methods: {
     submit() {
-      // 2. mapActoinsでactionの関数を登録することで、
-      // thisで指定してstoreのaction関数にアクセス可能
-      this.addAddress(this.address);
+      if (this.$route.params.address_id) {
+        this.updateAddress({
+          id: this.$route.params.address_id,
+          address: this.address,
+        });
+      } else {
+        // 2. mapActoinsでactionの関数を登録することで、
+        // thisで指定してstoreのaction関数にアクセス可能
+        this.addAddress(this.address);
+      }
       this.$router.push({ name: "Addresses" });
       this.address = {};
     },
     // 1. mapActionsでstoreのaction関数を配列で登録しているから、
     // components内でaction関数を使用することが可能
-    ...mapActions(["addAddress"]),
+    ...mapActions(["addAddress", "updateAddress"]),
   },
 };
 </script>
